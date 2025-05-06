@@ -1,10 +1,14 @@
+package model;
+
+import util.Status;
+
 import java.util.Objects;
 
 public class Task {
+    private int id; // уникальный идентификационный номер задачи(для поиска)
     private String title; // название
     private String description; // описание
     private Status status; // статус задачи
-    private int id; // уникальный идентификационный номер задачи(для поиска)
 
     public Task(String title, String description, Status status, int id) {
         this.title = title;
@@ -47,7 +51,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "model.Task{" +
                 "title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", status=" + status +

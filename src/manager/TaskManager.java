@@ -1,10 +1,18 @@
+package manager;
+
+import model.Epic;
+import model.Subtask;
+import model.Task;
+import util.Status;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TaskManager {
-    public HashMap<Integer, Task> tasks = new HashMap<>();
-    public HashMap<Integer, Subtask> subtasks = new HashMap<>();
-    public HashMap<Integer, Epic> epics = new HashMap<>();
+    // сделал поля приватными
+    private HashMap<Integer, Task> tasks = new HashMap<>();
+    private HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    private HashMap<Integer, Epic> epics = new HashMap<>();
     private static int counter = 0; // счетчик для идентификатора
 
     public int generateNewId() {
@@ -44,7 +52,7 @@ public class TaskManager {
     }
 
     // Обновление. Новая версия объекта с верным идентификатором передаётся в виде параметра.
-    void updateTask(int id, Task task) {
+    public void updateTask(int id, Task task) {
         if (tasks.containsKey(id)) {
             tasks.put(id, task);
         } else {
