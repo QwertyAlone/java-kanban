@@ -1,0 +1,5 @@
+public enum Status { // статус задачи
+    NEW,
+    IN_PROGRESS,
+    DONE
+}
