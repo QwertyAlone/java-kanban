@@ -5,16 +5,16 @@ import model.Subtask;
 import model.Task;
 import util.Status;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     // сделал поля приватными
     private HashMap<Integer, Task> tasks = new HashMap<>();
     private HashMap<Integer, Subtask> subtasks = new HashMap<>();
     private HashMap<Integer, Epic> epics = new HashMap<>();
-    private ArrayList<Task> history = new ArrayList<>();
+    private final List<Task> history = new ArrayList<>();
     private static int counter = 0; // счетчик для идентификатора
 
     @Override
@@ -44,6 +44,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task getTaskById(int id) {
         if (tasks.containsKey(id)) {
+            addToHistory(tasks.get(id));
             return tasks.get(id);
         } else {
             printErrorId();
@@ -125,6 +126,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Subtask getSubtaskById(int id) {
         if (subtasks.containsKey(id)) {
+            addToHistory(subtasks.get(id));
             return subtasks.get(id);
         } else {
             printErrorId();
@@ -135,7 +137,7 @@ public class InMemoryTaskManager implements TaskManager {
     // Удаление подзадачи по идентификатору
     @Override
     public void removeSubtaskById(int id) {
-        if(!subtasks.containsKey((id))) {
+        if (!subtasks.containsKey((id))) {
             printErrorId();
             return;
         }
@@ -222,6 +224,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic getEpicById(int id) {
         if (epics.containsKey(id)) {
+            addToHistory(epics.get(id));
             return epics.get(id);
         } else {
             printErrorId();
@@ -254,16 +257,19 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-   List<Task> getHistory() {
-        if (history.size() == 10) {
-            List<Task> tmpHistory = new ArrayList<>();
-            for (int i = 1; i < history.size(); i++) {
-                tmpHistory.add(history.get(i));
+    //История просмотров задач
+    //согласно ТЗ, аргументы в метод не передаются, возвращается копия листа
+    public List<Task> getHistory() {
+        return new ArrayList<Task>(history);
+    }
+
+    //Вспомогательный метод для getHistory()
+    public void addToHistory(Task task) {
+        if(task != null) {
+            history.add(task);
+            if (history.size() > 10 ) {
+                history.removeFirst();
             }
         }
-
-
-
-        return history;
     }
 }
