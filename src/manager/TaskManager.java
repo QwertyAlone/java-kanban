@@ -6,6 +6,7 @@ import model.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public interface TaskManager {
     int generateNewId();
@@ -70,5 +71,5 @@ public interface TaskManager {
     // Удаление эпика по идентификатору с удалением подзадач
     void removeEpicById(int id);
 
-
+    List<Task> getHistory();
 }
