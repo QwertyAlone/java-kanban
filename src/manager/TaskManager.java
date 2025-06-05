@@ -46,7 +46,7 @@ public interface TaskManager {
 
     // Удаление подзадачи по идентификатору
     void removeSubtaskById(int id);
-
+    void addSubtaskInEpic(Epic epic, Subtask subtask);
     //  Создание. Сам объект должен передаваться в качестве параметра.
     void addNewEpic(Epic epic);
 
@@ -54,7 +54,7 @@ public interface TaskManager {
     HashMap<Integer, Epic> getListOfAllEpics();
 
     // Добавление подзадачи в эпик
-    void addSubtaskInEpic(Epic epic, Subtask subtask);
+
 
     // Получение списка всех подзадач определённого эпика.
     ArrayList<Subtask> getSubtasksOfEpic(Epic epic);
