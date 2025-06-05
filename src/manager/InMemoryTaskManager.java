@@ -14,7 +14,7 @@ public class InMemoryTaskManager implements TaskManager {
     private HashMap<Integer, Task> tasks = new HashMap<>();
     private HashMap<Integer, Subtask> subtasks = new HashMap<>();
     private HashMap<Integer, Epic> epics = new HashMap<>();
-    private final List<Task> history = new ArrayList<>();
+    private final HistoryManager historyManager = Managers.getDefaultHistory();
     private static int counter = 0; // счетчик для идентификатора
 
     @Override
@@ -44,7 +44,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task getTaskById(int id) {
         if (tasks.containsKey(id)) {
-            addToHistory(tasks.get(id));
+            historyManager.add(tasks.get(id));
             return tasks.get(id);
         } else {
             printErrorId();
@@ -126,7 +126,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Subtask getSubtaskById(int id) {
         if (subtasks.containsKey(id)) {
-            addToHistory(subtasks.get(id));
+            historyManager.add(subtasks.get(id));
             return subtasks.get(id);
         } else {
             printErrorId();
@@ -224,7 +224,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic getEpicById(int id) {
         if (epics.containsKey(id)) {
-            addToHistory(epics.get(id));
+            historyManager.add(epics.get(id));
             return epics.get(id);
         } else {
             printErrorId();
@@ -257,19 +257,9 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    //История просмотров задач
-    //согласно ТЗ, аргументы в метод не передаются, возвращается копия листа
+    //Метод для просмотра истории
     public List<Task> getHistory() {
-        return new ArrayList<Task>(history);
+        return historyManager.getHistory();
     }
 
-    //Вспомогательный метод для getHistory()
-    public void addToHistory(Task task) {
-        if(task != null) {
-            history.add(task);
-            if (history.size() > 10 ) {
-                history.removeFirst();
-            }
-        }
-    }
 }
