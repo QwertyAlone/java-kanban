@@ -14,5 +14,4 @@ class TaskTest {
         assertEquals(task1, task2, "Экземпляры не равны");
 
     }
-
 }
