@@ -1,6 +1,6 @@
 package model;
 
-import manager.Managers;
+import manager.Manager;
 import manager.TaskManager;
 import org.junit.jupiter.api.Test;
 import util.Status;
@@ -22,7 +22,7 @@ class TaskTest {
     //проверьте, что задачи с заданным id и сгенерированным id не конфликтуют внутри менеджера;
     @Test
     public void taskNoIdConflictBetweenManualAndGenerated() {
-        TaskManager taskManager = Managers.getDefault();
+        TaskManager taskManager = Manager.getDefault();
         // Создаём задачу с "ручным" id 100
         Task manual = new Task("Ручная", "Описание", Status.NEW, 100);
         taskManager.addNewTask(manual);
@@ -41,7 +41,7 @@ class TaskTest {
     // создайте тест, в котором проверяется неизменность задачи (по всем полям) при добавлении задачи в менеджер
     @Test
         public void taskImmutabilityOnAdd() {
-        TaskManager taskManager = Managers.getDefault();
+        TaskManager taskManager = Manager.getDefault();
         Task original = new Task("Неизменяемая", "Описание", Status.NEW, 200);
         Task copy = new Task(original.getTitle(), original.getDescription(), original.getStatus(), original.getId());
         taskManager.addNewTask(original);
@@ -59,7 +59,7 @@ class TaskTest {
     //удаление задачи по id
     @Test
     public void shouldRemoveTaskById() {
-        TaskManager taskManager = Managers.getDefault();
+        TaskManager taskManager = Manager.getDefault();
         Task task = new Task("Удаляемая", "Описание", Status.NEW, taskManager.generateNewId());
         taskManager.addNewTask(task);
         int id = task.getId();
@@ -72,7 +72,7 @@ class TaskTest {
     //удаление всех Task
     @Test
     public void shouldRemoveAllTasks() {
-        TaskManager taskManager = Managers.getDefault();
+        TaskManager taskManager = Manager.getDefault();
         Task t1 = new Task("T1", "Описание", Status.NEW, taskManager.generateNewId());
         Task t2 = new Task("T2", "Описание", Status.NEW, taskManager.generateNewId());
         taskManager.addNewTask(t1);

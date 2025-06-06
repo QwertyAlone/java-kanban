@@ -12,7 +12,7 @@ class InMemoryTaskManagerTest {
     @Test
     public void testAddAndGetDifferentTaskTypes() {
         // Добавляем Task
-        TaskManager taskManager = Managers.getDefault();
+        TaskManager taskManager = Manager.getDefault();
         Task task = new Task("Задача1", "Описание", Status.NEW, taskManager.generateNewId());
         taskManager.addNewTask(task);
         assertEquals(task, taskManager.getTaskById(task.getId()), "Нельзя получить Task по id");

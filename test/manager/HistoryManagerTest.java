@@ -12,7 +12,7 @@ class HistoryManagerTest {
     // убедитесь, что задачи, добавляемые в HistoryManager, сохраняют предыдущую версию задачи и её данных.
     @Test
     public void testHistoryPreservesPreviousVersion() {
-        TaskManager taskManager = Managers.getDefault();
+        TaskManager taskManager = Manager.getDefault();
         Task task = new Task("История1", "Описание", Status.NEW, taskManager.generateNewId());
         taskManager.addNewTask(task);
 

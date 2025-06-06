@@ -14,7 +14,7 @@ public class InMemoryTaskManager implements TaskManager {
     private HashMap<Integer, Task> tasks = new HashMap<>();
     private HashMap<Integer, Subtask> subtasks = new HashMap<>();
     private HashMap<Integer, Epic> epics = new HashMap<>();
-    private final HistoryManager historyManager = Managers.getDefaultHistory();
+    private final HistoryManager historyManager = Manager.getDefaultHistory();
     private static int counter = 0; // счетчик для идентификатора
 
     @Override
@@ -168,6 +168,10 @@ public class InMemoryTaskManager implements TaskManager {
     // Добавление подзадачи в эпик
     @Override
     public void addSubtaskInEpic(Epic epic, Subtask subtask) {
+        //добавлена проверка, до этого некорректно работало
+        if (subtask.getId() == epic.getId()) {
+            return;
+        }
         subtask.setEpicId(epic.getId());
         addNewSubtask(subtask);
         epic.getSubtaskIds().add(subtask.getId());

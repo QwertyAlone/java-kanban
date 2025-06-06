@@ -1,5 +1,5 @@
 import manager.InMemoryTaskManager;
-import manager.Managers;
+import manager.Manager;
 import manager.TaskManager;
 import model.Epic;
 import model.Subtask;
@@ -12,7 +12,7 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        TaskManager taskManager = Managers.getDefault();
+        TaskManager taskManager = Manager.getDefault();
 
         // ТАСКИ
         System.out.println("Добавление новых задач:");

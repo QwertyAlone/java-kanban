@@ -1,7 +1,7 @@
 package model;
 
 import manager.InMemoryTaskManager;
-import manager.Managers;
+import manager.Manager;
 import manager.TaskManager;
 import org.junit.jupiter.api.Test;
 import util.Status;
@@ -21,33 +21,31 @@ class EpicTest {
         //равенство будет только в том случае, если совпадает всё, потому что переопределен метод equals()
     }
 
-    //проверьте, что объект Epic нельзя добавить в самого себя в виде подзадачи;
-    //такой тест провести невозможно, потому что у подзадач есть привязка к эпику на уровне логики
-    //и метод addSubtaskInEpic(Epic epic, Subtask subtask) не позволит добавить эпик как подзадачу, потому что это
-    //в принципе разные сущности, подзадача на уровне создания "знает" к какому эпику она относится
-    //ниже тест, который просто проверяет добавление подзадачи в эпик, в принципе он, итак, уже реализован в методе main
+
+    //исправлено
+    //проверьте, что объект Epic нельзя добавить в самого себя в виде подзадачи
     @Test
-    void subtaskShouldBeAddedToTheEpic() {
-        // id у эпика будет совпадать с id подзадачи
+    void epicСantBeAddedToItselfAsSubtask() {
         InMemoryTaskManager manager = new InMemoryTaskManager();
+
+        // Создаем эпик с id = 1
         Epic epic = new Epic("t", "d", Status.NEW, 1);
         manager.addNewEpic(epic);
-        // id подзадачи = id эпика
+
+        // id подзадачи = id эпика = 1
         Subtask subtask = new Subtask("t", "d", Status.NEW, 1, 1);
         manager.addSubtaskInEpic(epic, subtask);
 
 
-        // Теперь проверим:
-        assertTrue(epic.getSubtaskIds().contains(1),
-                "Подзадача не лежит в эпике");
-        //подзадачи с id = 2 нет в эпике
-        assertFalse(epic.getSubtaskIds().contains(2), "Подзадача лежит в эпике");
+        // Проверяем, что подзадача не добавилась
+        assertTrue(epic.getSubtaskIds().isEmpty(), "Epic не должен содержать подзадачу с собственным ID");
+        assertNull(manager.getSubtaskById(1), "Subtask с ID эпика не должен быть добавлен в менеджер");
     }
 
-    // 14. Проверка: удаление Epic по id с удалением связанных Subtask
+    //удаление Epic по id с удалением связанных Subtask
     @Test
     public void shouldRemoveEpicByIdWithSubtasks() {
-        TaskManager taskManager = Managers.getDefault();
+        TaskManager taskManager = Manager.getDefault();
         Epic epic = new Epic("ЭпикУдаляемый", "Описание", Status.NEW, taskManager.generateNewId());
         taskManager.addNewEpic(epic);
         Subtask s1 = new Subtask("S1", "Описание", Status.NEW, taskManager.generateNewId(), epic.getId());
@@ -68,7 +66,7 @@ class EpicTest {
     //удаление всех Epics с удалением всех связанных Subtask
     @Test
     public void shouldRemoveAllEpics() {
-        TaskManager taskManager = Managers.getDefault();
+        TaskManager taskManager = Manager.getDefault();
         Epic epic1 = new Epic("Эпик1", "Описание", Status.NEW, taskManager.generateNewId());
         Epic epic2 = new Epic("Эпик2", "Описание", Status.NEW, taskManager.generateNewId());
         taskManager.addNewEpic(epic1);

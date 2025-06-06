@@ -1,7 +1,7 @@
 package model;
 
 import manager.InMemoryTaskManager;
-import manager.Managers;
+import manager.Manager;
 import manager.TaskManager;
 import org.junit.jupiter.api.Test;
 import util.Status;
@@ -41,7 +41,7 @@ class SubtaskTest {
     // удаление Subtask по id и очистка Epic
     @Test
     public void shouldRemoveSubtaskById() {
-        TaskManager taskManager = Managers.getDefault();
+        TaskManager taskManager = Manager.getDefault();
         Epic epic = new Epic("Эпик", "Описание", Status.NEW, taskManager.generateNewId());
         taskManager.addNewEpic(epic);
         Subtask sub = new Subtask("Подзадача", "Описание", Status.NEW, taskManager.generateNewId(), epic.getId());
@@ -56,7 +56,7 @@ class SubtaskTest {
     //удаление всех Subtask и очистка всех Epics
     @Test
     public void shouldRemoveAllSubtasks() {
-        TaskManager taskManager = Managers.getDefault();
+        TaskManager taskManager = Manager.getDefault();
         Epic epic1 = new Epic("Эпик1", "Описание", Status.NEW, taskManager.generateNewId());
         Epic epic2 = new Epic("Эпик2", "Описание", Status.NEW, taskManager.generateNewId());
         taskManager.addNewEpic(epic1);
